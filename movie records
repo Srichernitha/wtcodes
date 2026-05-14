@@ -1,0 +1,353 @@
+movies.xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<movies>
+
+    <movie>
+        <title>Inception</title>
+        <genre>Sci-Fi</genre>
+        <releaseYear>2010</releaseYear>
+        <rating>8.8</rating>
+        <language>English</language>
+    </movie>
+
+    <movie>
+        <title>Interstellar</title>
+        <genre>Sci-Fi</genre>
+        <releaseYear>2014</releaseYear>
+        <rating>8.7</rating>
+        <language>English</language>
+    </movie>
+
+    <movie>
+        <title>Jailer</title>
+        <genre>Action</genre>
+        <releaseYear>2023</releaseYear>
+        <rating>7.5</rating>
+        <language>Tamil</language>
+    </movie>
+
+    <movie>
+        <title>3 Idiots</title>
+        <genre>Comedy</genre>
+        <releaseYear>2009</releaseYear>
+        <rating>8.4</rating>
+        <language>Hindi</language>
+    </movie>
+
+    <movie>
+        <title>Pushpa</title>
+        <genre>Action</genre>
+        <releaseYear>2021</releaseYear>
+        <rating>7.9</rating>
+        <language>Telugu</language>
+    </movie>
+
+    <movie>
+        <title>KGF</title>
+        <genre>Action</genre>
+        <releaseYear>2018</releaseYear>
+        <rating>8.2</rating>
+        <language>Kannada</language>
+    </movie>
+
+    <movie>
+        <title>Coco</title>
+        <genre>Animation</genre>
+        <releaseYear>2017</releaseYear>
+        <rating>8.4</rating>
+        <language>English</language>
+    </movie>
+
+    <movie>
+        <title>Avatar</title>
+        <genre>Fantasy</genre>
+        <releaseYear>2009</releaseYear>
+        <rating>7.8</rating>
+        <language>English</language>
+    </movie>
+
+</movies>
+
+
+
+
+
+
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Movie Catalog</title>
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Movie Catalog</h1>
+
+<div class="controls">
+
+<select id="genreFilter">
+
+<option value="All">
+All Genres
+</option>
+
+<option value="Action">
+Action
+</option>
+
+<option value="Sci-Fi">
+Sci-Fi
+</option>
+
+<option value="Comedy">
+Comedy
+</option>
+
+<option value="Animation">
+Animation
+</option>
+
+<option value="Fantasy">
+Fantasy
+</option>
+
+</select>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Title</th>
+<th>Genre</th>
+<th>Release Year</th>
+<th>Rating</th>
+<th>Language</th>
+
+</tr>
+
+</thead>
+
+<tbody id="movieTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#f6d365,#fda085);
+    padding:30px;
+}
+
+.card{
+    width:1100px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+.controls{
+    display:flex;
+    justify-content:center;
+    margin-bottom:25px;
+}
+
+select{
+    width:250px;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#ff7b54;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f5f5f5;
+}
+
+.highlight{
+    background:#d4edda !important;
+    color:#155724;
+    font-weight:bold;
+}
+
+
+
+
+
+script.js
+const movieTable =
+document.getElementById("movieTable");
+
+const genreFilter =
+document.getElementById("genreFilter");
+
+let allMovies = [];
+
+fetch("movies.xml")
+
+.then(response => response.text())
+
+.then(data => {
+
+    const parser = new DOMParser();
+
+    const xml =
+    parser.parseFromString(data,"text/xml");
+
+    const movies =
+    xml.getElementsByTagName("movie");
+
+    for(let movie of movies){
+
+        let movieData = {
+
+            title:
+            movie.getElementsByTagName("title")[0]
+            .textContent,
+
+            genre:
+            movie.getElementsByTagName("genre")[0]
+            .textContent,
+
+            releaseYear:
+            movie.getElementsByTagName("releaseYear")[0]
+            .textContent,
+
+            rating:
+            parseFloat(
+            movie.getElementsByTagName("rating")[0]
+            .textContent),
+
+            language:
+            movie.getElementsByTagName("language")[0]
+            .textContent
+        };
+
+        allMovies.push(movieData);
+    }
+
+    displayMovies(allMovies);
+});
+
+function displayMovies(movies){
+
+    movieTable.innerHTML = "";
+
+    movies.forEach(movie => {
+
+        let highlightClass = "";
+
+        if(movie.rating >= 8){
+
+            highlightClass = "highlight";
+        }
+
+        let row =
+
+        `<tr class="${highlightClass}">
+
+            <td>${movie.title}</td>
+
+            <td>${movie.genre}</td>
+
+            <td>${movie.releaseYear}</td>
+
+            <td>${movie.rating}</td>
+
+            <td>${movie.language}</td>
+
+        </tr>`;
+
+        movieTable.innerHTML += row;
+    });
+}
+
+genreFilter.addEventListener("change",()=>{
+
+    let selectedGenre =
+    genreFilter.value;
+
+    if(selectedGenre === "All"){
+
+        displayMovies(allMovies);
+    }
+
+    else{
+
+        let filteredMovies =
+        allMovies.filter(movie =>
+            movie.genre === selectedGenre
+        );
+
+        displayMovies(filteredMovies);
+    }
+});
