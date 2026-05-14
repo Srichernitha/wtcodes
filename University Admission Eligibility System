@@ -1,0 +1,448 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>University Admission</title>
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>University Admission System</h1>
+
+<form action="admission"
+      method="post"
+      oninput="calculateResult()"
+      onsubmit="return validateForm()">
+
+<input type="text"
+       id="name"
+       name="name"
+       placeholder="Enter Student Name"
+       required>
+
+<input type="number"
+       id="physics"
+       name="physics"
+       placeholder="Physics Marks"
+       required>
+
+<input type="number"
+       id="chemistry"
+       name="chemistry"
+       placeholder="Chemistry Marks"
+       required>
+
+<input type="number"
+       id="maths"
+       name="maths"
+       placeholder="Mathematics Marks"
+       required>
+
+<input type="number"
+       id="entrance"
+       name="entrance"
+       placeholder="Entrance Exam Score"
+       required>
+
+<div class="preview">
+
+<h2 id="total">
+Total : 0
+</h2>
+
+<h2 id="percentage">
+Percentage : 0%
+</h2>
+
+<h2 id="eligibility">
+Eligibility : Not Eligible
+</h2>
+
+</div>
+
+<button type="submit">
+Check Admission
+</button>
+
+</form>
+
+<p id="error"></p>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#74ebd5,#9face6);
+    padding:30px;
+}
+
+.card{
+    width:500px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin:12px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+.preview{
+    margin-top:20px;
+    background:#f5f5f5;
+    padding:20px;
+    border-radius:15px;
+}
+
+.preview h2{
+    margin:12px 0;
+    color:#444;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:25px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(to right,#4facfe,#00f2fe);
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+#error{
+    color:red;
+    text-align:center;
+    margin-top:15px;
+}
+
+
+
+
+
+script.js
+function calculateResult(){
+
+    let physics =
+    parseFloat(
+    document.getElementById("physics").value)
+    || 0;
+
+    let chemistry =
+    parseFloat(
+    document.getElementById("chemistry").value)
+    || 0;
+
+    let maths =
+    parseFloat(
+    document.getElementById("maths").value)
+    || 0;
+
+    let entrance =
+    parseFloat(
+    document.getElementById("entrance").value)
+    || 0;
+
+    let total =
+    physics + chemistry + maths;
+
+    let percentage =
+    (total / 300) * 100;
+
+    document.getElementById("total")
+    .innerHTML =
+    "Total : " + total;
+
+    document.getElementById("percentage")
+    .innerHTML =
+    "Percentage : "
+    + percentage.toFixed(2)
+    + "%";
+
+    let eligibilityText =
+    "Not Eligible";
+
+    if(percentage >= 70
+       && entrance >= 60){
+
+        eligibilityText =
+        "Eligible for Admission";
+    }
+
+    document.getElementById("eligibility")
+    .innerHTML =
+    "Eligibility : "
+    + eligibilityText;
+}
+
+function validateForm(){
+
+    let physics =
+    parseFloat(
+    document.getElementById("physics").value);
+
+    let chemistry =
+    parseFloat(
+    document.getElementById("chemistry").value);
+
+    let maths =
+    parseFloat(
+    document.getElementById("maths").value);
+
+    let error =
+    document.getElementById("error");
+
+    error.innerHTML = "";
+
+    if(physics < 0 || physics > 100 ||
+       chemistry < 0 || chemistry > 100 ||
+       maths < 0 || maths > 100){
+
+        error.innerHTML =
+        "Marks should be between 0 and 100";
+
+        return false;
+    }
+
+    return true;
+}
+
+
+
+
+
+
+
+AdmissionServlet.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class AdmissionServlet extends HttpServlet {
+
+    public void doPost(HttpServletRequest request,
+                       HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String name =
+                request.getParameter("name");
+
+        int physics =
+                Integer.parseInt(
+                request.getParameter("physics"));
+
+        int chemistry =
+                Integer.parseInt(
+                request.getParameter("chemistry"));
+
+        int maths =
+                Integer.parseInt(
+                request.getParameter("maths"));
+
+        int entrance =
+                Integer.parseInt(
+                request.getParameter("entrance"));
+
+        int total =
+                physics + chemistry + maths;
+
+        double percentage =
+                (total / 300.0) * 100;
+
+        String status;
+
+        if(percentage >= 70
+           && entrance >= 60){
+
+            status =
+            "Eligible for Admission";
+        }
+
+        else{
+
+            status =
+            "Not Eligible";
+        }
+
+        request.setAttribute("name", name);
+
+        request.setAttribute("physics",
+                             physics);
+
+        request.setAttribute("chemistry",
+                             chemistry);
+
+        request.setAttribute("maths",
+                             maths);
+
+        request.setAttribute("entrance",
+                             entrance);
+
+        request.setAttribute("total",
+                             total);
+
+        request.setAttribute("percentage",
+                             percentage);
+
+        request.setAttribute("status",
+                             status);
+
+        RequestDispatcher rd =
+                request.getRequestDispatcher(
+                        "result.jsp"
+                );
+
+        rd.forward(request,response);
+    }
+}
+
+
+
+
+
+
+
+result.jsp
+<%@ page language="java"
+contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Admission Result</title>
+
+<style>
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#74ebd5,#9face6);
+    font-family:Arial;
+}
+
+.card{
+    width:500px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+p{
+    font-size:20px;
+    margin:15px 0;
+}
+
+.status{
+    margin-top:25px;
+    text-align:center;
+    font-size:28px;
+    color:#0077b6;
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Admission Result</h1>
+
+<p><b>Name :</b> ${name}</p>
+
+<p><b>Physics :</b> ${physics}</p>
+
+<p><b>Chemistry :</b> ${chemistry}</p>
+
+<p><b>Mathematics :</b> ${maths}</p>
+
+<p><b>Entrance Score :</b> ${entrance}</p>
+
+<p><b>Total :</b> ${total}</p>
+
+<p><b>Percentage :</b>
+${percentage}%</p>
+
+<div class="status">
+
+${status}
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+
+
+
+url-pattern: admission
