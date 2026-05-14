@@ -1,0 +1,197 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Real-Time Character Counter</title>
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Real-Time Character Counter</h1>
+
+<textarea id="textInput"
+          placeholder="Start typing here...">
+
+</textarea>
+
+<div class="counter-section">
+
+<div class="counter-box">
+
+<h2 id="charCount">
+Characters : 0
+</h2>
+
+</div>
+
+<div class="counter-box">
+
+<h2 id="wordCount">
+Words : 0
+</h2>
+
+</div>
+
+<div class="counter-box">
+
+<h2 id="sentenceCount">
+Sentences : 0
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    padding:30px;
+}
+
+.card{
+    width:700px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+textarea{
+    width:100%;
+    height:220px;
+    padding:15px;
+    border-radius:15px;
+    border:1px solid #ccc;
+    resize:none;
+    outline:none;
+    font-size:16px;
+}
+
+.counter-section{
+    display:flex;
+    justify-content:space-between;
+    margin-top:25px;
+    gap:15px;
+}
+
+.counter-box{
+    flex:1;
+    background:#f5f5f5;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    transition:0.3s;
+}
+
+.counter-box h2{
+    color:#444;
+}
+
+.red{
+    background:#ffcccc !important;
+    color:red !important;
+}
+
+
+
+script.js
+const textInput =
+document.getElementById("textInput");
+
+const charCount =
+document.getElementById("charCount");
+
+const wordCount =
+document.getElementById("wordCount");
+
+const sentenceCount =
+document.getElementById("sentenceCount");
+
+textInput.addEventListener("input",()=>{
+
+    let text =
+    textInput.value;
+
+    let characters =
+    text.length;
+
+    let words =
+    text.trim() === ""
+    ? 0
+    : text.trim().split(/\s+/).length;
+
+    let sentences =
+    text.split(/[.!?]+/)
+    .filter(sentence =>
+        sentence.trim() !== ""
+    ).length;
+
+    charCount.innerHTML =
+    "Characters : "
+    + characters;
+
+    wordCount.innerHTML =
+    "Words : "
+    + words;
+
+    sentenceCount.innerHTML =
+    "Sentences : "
+    + sentences;
+
+    if(characters > 200){
+
+        charCount.parentElement
+        .classList.add("red");
+    }
+
+    else{
+
+        charCount.parentElement
+        .classList.remove("red");
+    }
+});
