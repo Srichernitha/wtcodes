@@ -18,57 +18,32 @@
             <!-- STEP 1 -->
             <div class="step active">
                 <h2>Personal Details</h2>
-                <input type="text"
-                       id="name"
-                       name="name"
-                       placeholder="Enter Full Name">
-                <input type="email"
-                       id="email"
-                       name="email"
-                       placeholder="Enter Email">
-                <input type="text"
-                       id="phone"
-                       name="phone"
-                       placeholder="Enter Phone Number">
-                <button type="button"
-                        class="nextBtn">
-                    Next
-                </button>
+                <input type="text" id="name" name="name" placeholder="Enter Full Name">
+                <input type="email" id="email" name="email" placeholder="Enter Email">
+                <input type="text" id="phone" name="phone" placeholder="Enter Phone Number">
+                <button type="button" class="nextBtn">Next</button>
             </div>
             <!-- STEP 2 -->
             <div class="step">
                 <h2>Academic Details</h2>
                 <select id="department" name="department">
-                    <option value="">
-                        Select Department
-                    </option>
+                    <option value="">Select Department</option>
                     <option>CSE</option>
                     <option>ECE</option>
                     <option>EEE</option>
                     <option>IT</option>
                 </select>
                 <select id="year" name="year">
-                    <option value="">
-                        Select Year
-                    </option>
+                    <option value="">Select Year</option>
                     <option>1st Year</option>
                     <option>2nd Year</option>
                     <option>3rd Year</option>
                     <option>4th Year</option>
                 </select>
-                <input type="text"
-                       id="gpa"
-                       name="gpa"
-                       placeholder="Enter GPA">
+                <input type="text" id="gpa" name="gpa" placeholder="Enter GPA">
                 <div class="buttons">
-                    <button type="button"
-                            class="prevBtn">
-                        Previous
-                    </button>
-                    <button type="button"
-                            class="nextBtn">
-                        Next
-                    </button>
+                    <button type="button" class="prevBtn"> Previous</button>
+                    <button type="button" class="nextBtn"> Next </button>
                 </div>
             </div>
             <!-- STEP 3 -->
@@ -76,38 +51,21 @@
                 <h2>Course Preferences</h2>
                 <div class="courses">
                     <label>
-                        <input type="checkbox"
-                               name="courses"
-                               value="Web Technologies">
-                        Web Technologies
+                        <input type="checkbox" name="courses" value="Web Technologies"> Web Technologies
                     </label>
                     <label>
-                        <input type="checkbox"
-                               name="courses"
-                               value="Machine Learning">
-                        Machine Learning
+                        <input type="checkbox" name="courses" value="Machine Learning"> Machine Learning
                     </label>
                     <label>
-                        <input type="checkbox"
-                               name="courses"
-                               value="Cloud Computing">
-                        Cloud Computing
+                        <input type="checkbox" name="courses" value="Cloud Computing"> Cloud Computing
                     </label>
                     <label>
-                        <input type="checkbox"
-                               name="courses"
-                               value="Cyber Security">
-                        Cyber Security
+                        <input type="checkbox" name="courses" value="Cyber Security"> Cyber Security
                     </label>
                 </div>
                 <div class="buttons">
-                    <button type="button"
-                            class="prevBtn">
-                        Previous
-                    </button>
-                    <button type="submit">
-                        Submit
-                    </button>
+                    <button type="button" class="prevBtn"> Previous </button>
+                    <button type="submit"> Submit </button>
                 </div>
             </div>
         </form>
@@ -241,12 +199,9 @@ button:hover{
 
 script.js
 const steps = document.querySelectorAll(".step");
-const nextBtns =
-document.querySelectorAll(".nextBtn");
-const prevBtns =
-document.querySelectorAll(".prevBtn");
-const progress =
-document.getElementById("progress");
+const nextBtns =document.querySelectorAll(".nextBtn");
+const prevBtns =document.querySelectorAll(".prevBtn");
+const progress =document.getElementById("progress");
 let currentStep = 0;
 let studentData = {};
 showStep(currentStep);
@@ -266,21 +221,14 @@ prevBtns.forEach(button => {
     });
 });
 function showStep(step){
-    steps.forEach(s => {
-        s.classList.remove("active");
-    });
+    steps.forEach(s => { s.classList.remove("active");});
     steps[step].classList.add("active");
-    progress.style.width =
-    ((step + 1) / steps.length) * 100 + "%";
+    progress.style.width = ((step + 1) / steps.length) * 100 + "%";
 }
 function validateStep(step){
-    const inputs =
-    steps[step].querySelectorAll(
-        "input, select"
-    );
+    const inputs = steps[step].querySelectorAll("input, select");
     for(let input of inputs){
-        if(input.type !== "checkbox"
-           && input.value.trim() === ""){
+        if(input.type !== "checkbox" && input.value.trim() === ""){
             alert("Please fill all fields");
             return false;
         }
@@ -288,18 +236,12 @@ function validateStep(step){
     return true;
 }
 function saveData(){
-    studentData.name =
-    document.getElementById("name").value;
-    studentData.email =
-    document.getElementById("email").value;
-    studentData.phone =
-    document.getElementById("phone").value;
-    studentData.department =
-    document.getElementById("department").value;
-    studentData.year =
-    document.getElementById("year").value;
-    studentData.gpa =
-    document.getElementById("gpa").value;
+    studentData.name =document.getElementById("name").value;
+    studentData.email =document.getElementById("email").value;
+    studentData.phone =document.getElementById("phone").value;
+    studentData.department =document.getElementById("department").value;
+    studentData.year =document.getElementById("year").value;
+    studentData.gpa =document.getElementById("gpa").value;
     console.log(studentData);
 }
 
@@ -312,36 +254,22 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 public class RegistrationServlet extends HttpServlet {
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response)
-            throws ServletException, IOException {
-        String name =
-                request.getParameter("name");
-        String email =
-                request.getParameter("email");
-        String phone =
-                request.getParameter("phone");
-        String department =
-                request.getParameter("department");
-        String year =
-                request.getParameter("year");
-        String gpa =
-                request.getParameter("gpa");
-        String[] courses =
-                request.getParameterValues("courses");
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        String email =request.getParameter("email");
+        String phone =request.getParameter("phone");
+        String department =request.getParameter("department");
+        String year =request.getParameter("year");
+        String gpa =request.getParameter("gpa");
+        String[] courses =request.getParameterValues("courses");
         request.setAttribute("name", name);
         request.setAttribute("email", email);
         request.setAttribute("phone", phone);
-        request.setAttribute("department",
-                             department);
+        request.setAttribute("department",department);
         request.setAttribute("year", year);
         request.setAttribute("gpa", gpa);
-        request.setAttribute("courses",
-                             courses);
-        RequestDispatcher rd =
-                request.getRequestDispatcher(
-                        "display.jsp"
-                );
+        request.setAttribute("courses",courses);
+        RequestDispatcher rd =request.getRequestDispatcher("display.jsp");
         rd.forward(request, response);
     }
 }
@@ -365,3 +293,74 @@ web.xml
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
 </web-app>
+
+
+
+
+
+display.jsp
+<%@ page language="java"
+contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Details</title>
+<style>
+body{
+    font-family:Arial;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.card{
+    background:white;
+    width:500px;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+p{
+    margin:12px 0;
+    font-size:18px;
+}
+.course{
+    background:#f3f3f3;
+    padding:10px;
+    border-radius:10px;
+    margin-top:10px;
+}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Registration Successful</h1>
+<p><b>Name:</b> ${name}</p>
+<p><b>Email:</b> ${email}</p>
+<p><b>Phone:</b> ${phone}</p>
+<p><b>Department:</b> ${department}</p>
+<p><b>Year:</b> ${year}</p>
+<p><b>GPA:</b> ${gpa}</p>
+<p><b>Selected Courses:</b></p>
+<%
+String[] courses =
+(String[])request.getAttribute("courses");
+if(courses != null){
+    for(String c : courses){
+%>
+<div class="course">
+<%= c %>
+</div>
+<%
+    }
+}
+%>
+</div>
+</body>
+</html>
