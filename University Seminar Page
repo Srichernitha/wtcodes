@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>University Seminar</title>
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+
+<body>
+
+<header class="banner">
+
+<h1>International Tech Seminar 2026</h1>
+
+<p>
+
+Exploring Future Technologies &
+Innovation
+
+</p>
+
+<button class="register-btn">
+
+Register Now
+
+</button>
+
+</header>
+
+<section class="speakers-section">
+
+<h2>Guest Speakers</h2>
+
+<div class="speaker-container">
+
+<div class="speaker-card"
+     onclick="showModal(
+     'Dr. Ramesh',
+     'Artificial Intelligence Expert',
+     '10+ years experience in AI research and machine learning.')">
+
+<h3>Dr. Ramesh</h3>
+
+<p>AI Specialist</p>
+
+</div>
+
+<div class="speaker-card"
+     onclick="showModal(
+     'Dr. Kavitha',
+     'Cyber Security Researcher',
+     'Expert in network security and ethical hacking.')">
+
+<h3>Dr. Kavitha</h3>
+
+<p>Cyber Security</p>
+
+</div>
+
+<div class="speaker-card"
+     onclick="showModal(
+     'Dr. Harish',
+     'Cloud Computing Architect',
+     'Worked on large-scale cloud infrastructure projects.')">
+
+<h3>Dr. Harish</h3>
+
+<p>Cloud Computing</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="schedule-section">
+
+<h2>Seminar Schedule</h2>
+
+<table>
+
+<tr>
+
+<th>Time</th>
+<th>Session</th>
+<th>Speaker</th>
+
+</tr>
+
+<tr>
+
+<td>10:00 AM</td>
+<td>AI Revolution</td>
+<td>Dr. Ramesh</td>
+
+</tr>
+
+<tr>
+
+<td>12:00 PM</td>
+<td>Cyber Security Trends</td>
+<td>Dr. Kavitha</td>
+
+</tr>
+
+<tr>
+
+<td>2:00 PM</td>
+<td>Cloud Computing Future</td>
+<td>Dr. Harish</td>
+
+</tr>
+
+</table>
+
+</section>
+
+<div id="modal"
+     class="modal">
+
+<div class="modal-content">
+
+<span class="close"
+      onclick="closeModal()">
+
+&times;
+
+</span>
+
+<h2 id="modalTitle">
+
+</h2>
+
+<h3 id="modalRole">
+
+</h3>
+
+<p id="modalDescription">
+
+</p>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#f4f4f4;
+    color:#333;
+}
+
+.banner{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    text-align:center;
+    padding:80px 20px;
+}
+
+.banner h1{
+    font-size:45px;
+    margin-bottom:15px;
+}
+
+.banner p{
+    font-size:20px;
+    margin-bottom:25px;
+}
+
+.register-btn{
+    padding:15px 30px;
+    border:none;
+    border-radius:10px;
+    background:white;
+    color:#4facfe;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.register-btn:hover{
+    transform:scale(1.05);
+}
+
+.speakers-section{
+    padding:50px 30px;
+    text-align:center;
+}
+
+.speakers-section h2{
+    margin-bottom:30px;
+    font-size:35px;
+}
+
+.speaker-container{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.speaker-card{
+    width:250px;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.speaker-card:hover{
+    transform:translateY(-10px);
+    background:#4facfe;
+    color:white;
+}
+
+.speaker-card h3{
+    margin-bottom:10px;
+}
+
+.schedule-section{
+    padding:50px 30px;
+    text-align:center;
+}
+
+.schedule-section h2{
+    margin-bottom:25px;
+    font-size:35px;
+}
+
+table{
+    width:90%;
+    margin:auto;
+    border-collapse:collapse;
+}
+
+th{
+    background:#4facfe;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f5f5f5;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    width:450px;
+    padding:35px;
+    border-radius:20px;
+    position:relative;
+    text-align:center;
+    animation:popup 0.3s ease;
+}
+
+.close{
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:30px;
+    cursor:pointer;
+}
+
+#modalTitle{
+    margin-bottom:15px;
+    color:#4facfe;
+}
+
+#modalRole{
+    margin-bottom:15px;
+}
+
+@keyframes popup{
+
+    from{
+        transform:scale(0.7);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@media(max-width:768px){
+
+    .speaker-container{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    table{
+        width:100%;
+    }
+}
+
+
+
+
+
+script.js
+const modal =
+document.getElementById("modal");
+
+const modalTitle =
+document.getElementById("modalTitle");
+
+const modalRole =
+document.getElementById("modalRole");
+
+const modalDescription =
+document.getElementById(
+"modalDescription"
+);
+
+function showModal(
+    name,
+    role,
+    description
+){
+
+    modal.style.display = "flex";
+
+    modalTitle.innerHTML = name;
+
+    modalRole.innerHTML = role;
+
+    modalDescription.innerHTML =
+    description;
+}
+
+function closeModal(){
+
+    modal.style.display = "none";
+}
+
+window.onclick = function(event){
+
+    if(event.target === modal){
+
+        closeModal();
+    }
+}
