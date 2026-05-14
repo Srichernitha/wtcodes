@@ -1,0 +1,301 @@
+events.xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<events>
+
+    <event>
+        <name>Tech Symposium</name>
+        <department>CSE</department>
+        <date>2026-06-10</date>
+        <venue>Main Auditorium</venue>
+        <organizer>Dr. Ramesh</organizer>
+    </event>
+
+    <event>
+        <name>AI Workshop</name>
+        <department>IT</department>
+        <date>2026-05-22</date>
+        <venue>Lab Block A</venue>
+        <organizer>Dr. Kavitha</organizer>
+    </event>
+
+    <event>
+        <name>Robotics Expo</name>
+        <department>ECE</department>
+        <date>2026-06-02</date>
+        <venue>Seminar Hall</venue>
+        <organizer>Dr. Suresh</organizer>
+    </event>
+
+    <event>
+        <name>Startup Summit</name>
+        <department>MBA</department>
+        <date>2026-05-30</date>
+        <venue>Conference Hall</venue>
+        <organizer>Dr. Priya</organizer>
+    </event>
+
+    <event>
+        <name>Cyber Security Bootcamp</name>
+        <department>CSE</department>
+        <date>2026-06-15</date>
+        <venue>Smart Classroom</venue>
+        <organizer>Dr. Harish</organizer>
+    </event>
+
+    <event>
+        <name>Cloud Computing Seminar</name>
+        <department>IT</department>
+        <date>2026-05-28</date>
+        <venue>Block B Hall</venue>
+        <organizer>Dr. Deepa</organizer>
+    </event>
+
+</events>
+
+
+
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>University Events</title>
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>University Events Portal</h1>
+
+<div class="controls">
+
+<input type="text"
+       id="searchBox"
+       placeholder="Search by Department">
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Event Name</th>
+<th>Department</th>
+<th>Date</th>
+<th>Venue</th>
+<th>Organizer</th>
+
+</tr>
+
+</thead>
+
+<tbody id="eventTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#a18cd1,#fbc2eb);
+    padding:30px;
+}
+
+.card{
+    width:1100px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+.controls{
+    display:flex;
+    justify-content:center;
+    margin-bottom:25px;
+}
+
+input{
+    width:300px;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#8e44ad;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f5f5f5;
+}
+
+
+
+
+script.js
+const eventTable =
+document.getElementById("eventTable");
+
+const searchBox =
+document.getElementById("searchBox");
+
+let allEvents = [];
+
+fetch("events.xml")
+
+.then(response => response.text())
+
+.then(data => {
+
+    const parser = new DOMParser();
+
+    const xml =
+    parser.parseFromString(data,"text/xml");
+
+    const events =
+    xml.getElementsByTagName("event");
+
+    for(let event of events){
+
+        let eventData = {
+
+            name:
+            event.getElementsByTagName("name")[0]
+            .textContent,
+
+            department:
+            event.getElementsByTagName("department")[0]
+            .textContent,
+
+            date:
+            event.getElementsByTagName("date")[0]
+            .textContent,
+
+            venue:
+            event.getElementsByTagName("venue")[0]
+            .textContent,
+
+            organizer:
+            event.getElementsByTagName("organizer")[0]
+            .textContent
+        };
+
+        allEvents.push(eventData);
+    }
+
+    sortEventsByDate();
+
+    displayEvents(allEvents);
+});
+
+function sortEventsByDate(){
+
+    allEvents.sort((a,b)=>{
+
+        return new Date(a.date)
+             - new Date(b.date);
+    });
+}
+
+function displayEvents(events){
+
+    eventTable.innerHTML = "";
+
+    events.forEach(event => {
+
+        let row =
+
+        `<tr>
+
+            <td>${event.name}</td>
+
+            <td>${event.department}</td>
+
+            <td>${event.date}</td>
+
+            <td>${event.venue}</td>
+
+            <td>${event.organizer}</td>
+
+        </tr>`;
+
+        eventTable.innerHTML += row;
+    });
+}
+
+searchBox.addEventListener("keyup",()=>{
+
+    let searchText =
+    searchBox.value.toLowerCase();
+
+    let filteredEvents =
+    allEvents.filter(event =>
+
+        event.department
+        .toLowerCase()
+        .includes(searchText)
+    );
+
+    displayEvents(filteredEvents);
+});
