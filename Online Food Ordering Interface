@@ -1,0 +1,297 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+<title>Food Ordering System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+<div class="card">
+<h1>Online Food Ordering</h1>
+<form action="order" method="post" id="foodForm">
+<table>
+<tr>
+<th>Food Item</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Total</th>
+</tr>
+<tr>
+<td>Burger</td>
+<td>120</td>
+<td>
+<input type="number" min="0" value="0" name="burger" class="qty" data-price="120">
+</td>
+<td class="itemTotal">₹0</td>
+</tr>
+<tr>
+<td>Pizza</td>
+<td>250</td>
+<td>
+<input type="number" min="0" value="0" name="pizza" class="qty" data-price="250">
+</td>
+<td class="itemTotal">₹0</td>
+</tr>
+<tr>
+<td>Pasta</td>
+<td>180</td>
+<td>
+<input type="number" min="0" value="0" name="pasta" class="qty" data-price="180">
+</td>
+<td class="itemTotal">₹0</td>
+</tr>
+<tr>
+<td>French Fries</td>
+<td>100</td>
+<td>
+<input type="number" min="0" value="0" name="fries" class="qty" data-price="100">
+</td>
+<td class="itemTotal">₹0</td>
+</tr>
+<tr>
+<td>Sandwich</td>
+<td>150</td>
+<td>
+<input type="number" min="0" value="0" name="sandwich" class="qty" data-price="150">
+</td>
+<td class="itemTotal">₹0</td>
+</tr>
+<tr>
+<td>Cold Drink</td>
+<td>80</td>
+<td>
+<input type="number" min="0" value="0" name="drink" class="qty" data-price="80">
+</td>
+<td class="itemTotal">₹0</td>
+</tr>
+</table>
+<div class="summary">
+<h2 id="subtotal">Subtotal : ₹0</h2>
+<h2 id="delivery">Delivery Charge : ₹0</h2>
+<h2 id="grandtotal">Grand Total : ₹0</h2>
+</div>
+<input type="hidden" name="grandTotal" id="hiddenTotal">
+<button type="submit">Place Order</button>
+</form>
+</div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    padding:30px;
+}
+
+.card{
+    width:900px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#ff6b6b;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+input{
+    width:70px;
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    text-align:center;
+}
+
+.summary{
+    margin-top:25px;
+    text-align:right;
+}
+
+.summary h2{
+    margin:12px 0;
+    color:#444;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:25px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(to right,#ff416c,#ff4b2b);
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+
+
+script.js
+const qtyInputs =document.querySelectorAll(".qty");
+const itemTotals =document.querySelectorAll(".itemTotal");
+const subtotalText =document.getElementById("subtotal");
+const deliveryText =document.getElementById("delivery");
+const grandText =document.getElementById("grandtotal");
+const hiddenTotal =document.getElementById("hiddenTotal");
+qtyInputs.forEach((input,index)=>{
+    input.addEventListener("input",()=>{
+        calculateTotal();
+    });
+});
+function calculateTotal(){
+    let subtotal = 0;
+    qtyInputs.forEach((input,index)=>{
+        let quantity =parseInt(input.value) || 0;
+        let price =parseInt(input.dataset.price);
+        let total =quantity * price;
+        itemTotals[index].innerText ="₹" + total;
+        subtotal += total;
+    });
+    let delivery = 0;
+    if(subtotal > 0 && subtotal < 500){
+        delivery = 50;
+    }
+    let grandTotal =subtotal + delivery;
+    subtotalText.innerText ="Subtotal : ₹" + subtotal;
+    deliveryText.innerText ="Delivery Charge : ₹" + delivery;
+    grandText.innerText ="Grand Total : ₹" + grandTotal;
+    hiddenTotal.value =
+    grandTotal;
+}
+
+
+
+
+
+FoodOrderServlet.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class FoodOrderServlet extends HttpServlet {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String burger =request.getParameter("burger");
+        String pizza =request.getParameter("pizza");
+        String pasta = request.getParameter("pasta");
+        String fries =request.getParameter("fries");
+        String sandwich =request.getParameter("sandwich");
+        String drink = request.getParameter("drink");
+        String total =request.getParameter("grandTotal");
+        request.setAttribute("burger", burger);
+        request.setAttribute("pizza", pizza);
+        request.setAttribute("pasta", pasta);
+        request.setAttribute("fries", fries);
+        request.setAttribute("sandwich", sandwich);
+        request.setAttribute("drink", drink);
+        request.setAttribute("total", total);
+        RequestDispatcher rd =request.getRequestDispatcher("summary.jsp");
+        rd.forward(request,response);
+    }
+}
+
+
+
+summary.jsp
+<%@ page language="java"
+contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Order Summary</title>
+<style>
+body{
+    font-family:Arial;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.card{
+    width:500px;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+h1{
+    text-align:center;
+    margin-bottom:25px;
+}
+p{
+    font-size:18px;
+    margin:12px 0;
+}
+.total{
+    margin-top:20px;
+    font-size:24px;
+    color:#ff416c;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Order Summary</h1>
+<p>Burger Quantity :${burger}</p>
+<p>Pizza Quantity :${pizza}</p>
+<p>Pasta Quantity :${pasta}</p>
+<p>French Fries Quantity :${fries}</p>
+<p>Sandwich Quantity :${sandwich}</p>
+<p>Cold Drink Quantity :${drink}</p>
+<div class="total">Grand Total :₹${total}
+</div>
+</div>
+</body>
+</html>
+
+
+
+
+url-pattern:order
