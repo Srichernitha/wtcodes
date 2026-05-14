@@ -1,0 +1,317 @@
+courses.xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<courses>
+
+    <course>
+        <code>CSE101</code>
+        <title>Web Technologies</title>
+        <credits>4</credits>
+        <instructor>Dr. Ramesh</instructor>
+        <semester>Semester 1</semester>
+    </course>
+
+    <course>
+        <code>CSE102</code>
+        <title>Data Structures</title>
+        <credits>3</credits>
+        <instructor>Dr. Kavitha</instructor>
+        <semester>Semester 1</semester>
+    </course>
+
+    <course>
+        <code>CSE201</code>
+        <title>Machine Learning</title>
+        <credits>4</credits>
+        <instructor>Dr. Srikanth</instructor>
+        <semester>Semester 2</semester>
+    </course>
+
+    <course>
+        <code>CSE202</code>
+        <title>Cloud Computing</title>
+        <credits>3</credits>
+        <instructor>Dr. Deepa</instructor>
+        <semester>Semester 2</semester>
+    </course>
+
+    <course>
+        <code>CSE301</code>
+        <title>Cyber Security</title>
+        <credits>4</credits>
+        <instructor>Dr. Suresh</instructor>
+        <semester>Semester 3</semester>
+    </course>
+
+    <course>
+        <code>CSE302</code>
+        <title>Artificial Intelligence</title>
+        <credits>4</credits>
+        <instructor>Dr. Meena</instructor>
+        <semester>Semester 3</semester>
+    </course>
+
+    <course>
+        <code>CSE401</code>
+        <title>Big Data Analytics</title>
+        <credits>3</credits>
+        <instructor>Dr. Harish</instructor>
+        <semester>Semester 4</semester>
+    </course>
+
+    <course>
+        <code>CSE402</code>
+        <title>Internet of Things</title>
+        <credits>3</credits>
+        <instructor>Dr. Priya</instructor>
+        <semester>Semester 4</semester>
+    </course>
+
+</courses>
+
+
+
+
+
+index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>University Courses</title>
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>University Course Catalog</h1>
+
+<div class="controls">
+
+<select id="semesterFilter">
+
+<option value="All">
+All Semesters
+</option>
+
+<option value="Semester 1">
+Semester 1
+</option>
+
+<option value="Semester 2">
+Semester 2
+</option>
+
+<option value="Semester 3">
+Semester 3
+</option>
+
+<option value="Semester 4">
+Semester 4
+</option>
+
+</select>
+
+<input type="text"
+       id="searchBox"
+       placeholder="Search Course Title">
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Course Code</th>
+<th>Title</th>
+<th>Credits</th>
+<th>Instructor</th>
+<th>Semester</th>
+
+</tr>
+
+</thead>
+
+<tbody id="courseTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#74ebd5,#9face6);
+    padding:30px;
+}
+
+.card{
+    width:1100px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+.controls{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:25px;
+    gap:20px;
+}
+
+select,
+input{
+    padding:12px;
+    width:250px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#4a69bd;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#f5f5f5;
+}
+
+
+
+
+script.js
+const tableBody =
+document.getElementById("courseTable");
+const semesterFilter =
+document.getElementById("semesterFilter");
+const searchBox =
+document.getElementById("searchBox");
+let allCourses = [];
+fetch("courses.xml")
+.then(response => response.text())
+.then(data => {
+    const parser = new DOMParser();
+    const xml =
+    parser.parseFromString(data,"text/xml");
+    const courses =
+    xml.getElementsByTagName("course");
+    for(let course of courses){
+        let courseData = {
+            code:
+            course.getElementsByTagName("code")[0]
+            .textContent,
+            title:
+            course.getElementsByTagName("title")[0]
+            .textContent,
+            credits:
+            course.getElementsByTagName("credits")[0]
+            .textContent,
+            instructor:
+            course.getElementsByTagName("instructor")[0]
+            .textContent,
+            semester:
+            course.getElementsByTagName("semester")[0]
+            .textContent
+        };
+        allCourses.push(courseData);
+    }
+    displayCourses(allCourses);
+});
+function displayCourses(courses){
+    tableBody.innerHTML = "";
+    courses.forEach(course => {
+        let row =
+        `<tr>
+            <td>${course.code}</td>
+            <td>${course.title}</td>
+            <td>${course.credits}</td>
+            <td>${course.instructor}</td>
+            <td>${course.semester}</td>
+        </tr>`;
+        tableBody.innerHTML += row;
+    });
+}
+semesterFilter.addEventListener("change",
+function(){
+    filterCourses();
+});
+searchBox.addEventListener("keyup",
+function(){
+    filterCourses();
+});
+function filterCourses(){
+    let semester =
+    semesterFilter.value;
+    let search =
+    searchBox.value.toLowerCase();
+    let filtered =
+    allCourses.filter(course => {
+        let matchSemester =
+        semester === "All"
+        || course.semester === semester;
+        let matchSearch =
+        course.title.toLowerCase()
+        .includes(search);
+        return matchSemester
+               && matchSearch;
+    });
+    displayCourses(filtered);
+}
