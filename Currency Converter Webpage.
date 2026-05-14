@@ -1,0 +1,353 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Currency Converter</title>
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Currency Converter</h1>
+
+<form action="convert"
+      method="post"
+      onsubmit="return validateForm()">
+
+<input type="number"
+       id="amount"
+       name="amount"
+       placeholder="Enter Amount">
+
+<select name="fromCurrency"
+        id="fromCurrency">
+
+<option value="INR">INR</option>
+<option value="USD">USD</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+
+</select>
+
+<select name="toCurrency"
+        id="toCurrency">
+
+<option value="USD">USD</option>
+<option value="INR">INR</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+
+</select>
+
+<button type="submit">
+Convert Currency
+</button>
+
+</form>
+
+<p id="error"></p>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#43cea2,#185a9d);
+}
+
+.card{
+    width:450px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#333;
+}
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    margin:12px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:20px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(to right,#11998e,#38ef7d);
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:0.9;
+}
+
+#error{
+    color:red;
+    text-align:center;
+    margin-top:15px;
+}
+
+
+
+
+
+script.js
+function validateForm(){
+
+    let amount =
+    document.getElementById("amount").value;
+
+    let error =
+    document.getElementById("error");
+
+    error.innerHTML = "";
+
+    if(amount === ""
+       || amount <= 0){
+
+        error.innerHTML =
+        "Please enter a valid amount";
+
+        return false;
+    }
+
+    return true;
+}
+
+
+
+
+
+
+CurrencyServlet.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class CurrencyServlet extends HttpServlet {
+
+    public void doPost(HttpServletRequest request,
+                       HttpServletResponse response)
+            throws ServletException, IOException {
+
+        double amount =
+                Double.parseDouble(
+                request.getParameter("amount"));
+
+        String from =
+                request.getParameter("fromCurrency");
+
+        String to =
+                request.getParameter("toCurrency");
+
+        double convertedAmount = amount;
+
+        if(from.equals("INR")
+           && to.equals("USD")){
+
+            convertedAmount =
+            amount * 0.012;
+        }
+
+        else if(from.equals("USD")
+                && to.equals("INR")){
+
+            convertedAmount =
+            amount * 83;
+        }
+
+        else if(from.equals("INR")
+                && to.equals("EUR")){
+
+            convertedAmount =
+            amount * 0.011;
+        }
+
+        else if(from.equals("EUR")
+                && to.equals("INR")){
+
+            convertedAmount =
+            amount * 90;
+        }
+
+        else if(from.equals("INR")
+                && to.equals("GBP")){
+
+            convertedAmount =
+            amount * 0.0095;
+        }
+
+        else if(from.equals("GBP")
+                && to.equals("INR")){
+
+            convertedAmount =
+            amount * 105;
+        }
+
+        request.setAttribute("amount",
+                             amount);
+
+        request.setAttribute("from",
+                             from);
+
+        request.setAttribute("to",
+                             to);
+
+        request.setAttribute("converted",
+                             convertedAmount);
+
+        RequestDispatcher rd =
+                request.getRequestDispatcher(
+                        "result.jsp"
+                );
+
+        rd.forward(request,response);
+    }
+}
+
+
+
+
+
+result.jsp
+<%@ page language="java"
+contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Conversion Result</title>
+
+<style>
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#43cea2,#185a9d);
+    font-family:Arial;
+}
+
+.card{
+    width:500px;
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    margin-bottom:25px;
+}
+
+.result{
+    font-size:28px;
+    color:#11998e;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Currency Conversion Result</h1>
+
+<p>
+
+Amount :
+<b>${amount}</b>
+
+</p>
+
+<p>
+
+From :
+<b>${from}</b>
+
+</p>
+
+<p>
+
+To :
+<b>${to}</b>
+
+</p>
+
+<div class="result">
+
+Converted Amount :
+${converted}
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+
+
+
+
+
+url-pattern:convert
