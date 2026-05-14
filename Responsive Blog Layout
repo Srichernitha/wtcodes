@@ -1,0 +1,353 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Responsive Blog Layout</title>
+
+<link rel="stylesheet"
+      href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Tech Trends Blog</h1>
+
+<button id="darkModeToggle">
+
+🌙 Dark Mode
+
+</button>
+
+</header>
+
+<nav>
+
+<ul>
+
+<li><a href="#">Home</a></li>
+<li><a href="#">Articles</a></li>
+<li><a href="#">Tutorials</a></li>
+<li><a href="#">Contact</a></li>
+
+</ul>
+
+</nav>
+
+<div class="container">
+
+<main>
+
+<div class="blog-card">
+
+<h2>Future of Artificial Intelligence</h2>
+
+<p class="date">
+
+Published on May 15, 2026
+
+</p>
+
+<p>
+
+Artificial Intelligence is transforming
+industries through automation,
+machine learning, and intelligent
+decision-making systems.
+
+</p>
+
+</div>
+
+<div class="blog-card">
+
+<h2>Why Web Development Matters</h2>
+
+<p class="date">
+
+Published on May 10, 2026
+
+</p>
+
+<p>
+
+Modern web development enables
+interactive and responsive digital
+experiences across devices.
+
+</p>
+
+</div>
+
+<div class="blog-card">
+
+<h2>Cloud Computing Revolution</h2>
+
+<p class="date">
+
+Published on May 05, 2026
+
+</p>
+
+<p>
+
+Cloud technologies provide scalable
+and secure infrastructure for
+applications worldwide.
+
+</p>
+
+</div>
+
+</main>
+
+<aside>
+
+<h2>Recent Posts</h2>
+
+<ul>
+
+<li>JavaScript ES2026 Features</li>
+<li>Machine Learning Basics</li>
+<li>Cyber Security Trends</li>
+<li>Responsive UI Design</li>
+<li>Future of IoT</li>
+
+</ul>
+
+</aside>
+
+</div>
+
+<footer>
+
+<p>
+
+© 2026 Tech Trends Blog |
+All Rights Reserved
+
+</p>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+style.css
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+    background:#f4f4f4;
+    color:#333;
+    transition:0.3s;
+}
+
+header{
+    background:#4a69bd;
+    color:white;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h1{
+    font-size:32px;
+}
+
+#darkModeToggle{
+    padding:10px 18px;
+    border:none;
+    border-radius:8px;
+    background:white;
+    color:#4a69bd;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+nav{
+    background:#333;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+    justify-content:center;
+}
+
+nav ul li{
+    margin:0 15px;
+}
+
+nav ul li a{
+    color:white;
+    text-decoration:none;
+    display:block;
+    padding:15px;
+}
+
+nav ul li a:hover{
+    background:#555;
+}
+
+.container{
+    display:grid;
+    grid-template-columns:3fr 1fr;
+    gap:25px;
+    padding:30px;
+}
+
+main{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.blog-card{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.blog-card h2{
+    margin-bottom:10px;
+    color:#4a69bd;
+}
+
+.date{
+    margin-bottom:15px;
+    color:gray;
+}
+
+aside{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    height:fit-content;
+}
+
+aside h2{
+    margin-bottom:15px;
+    color:#4a69bd;
+}
+
+aside ul{
+    list-style:none;
+}
+
+aside ul li{
+    padding:10px 0;
+    border-bottom:1px solid #ddd;
+}
+
+footer{
+    background:#4a69bd;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:20px;
+}
+
+.dark-mode{
+    background:#1e1e1e;
+    color:white;
+}
+
+.dark-mode .blog-card,
+.dark-mode aside{
+    background:#2c2c2c;
+    color:white;
+}
+
+.dark-mode nav{
+    background:#111;
+}
+
+.dark-mode nav ul li a:hover{
+    background:#222;
+}
+
+.dark-mode #darkModeToggle{
+    background:#333;
+    color:white;
+}
+
+@media(max-width:768px){
+
+    .container{
+        grid-template-columns:1fr;
+    }
+
+    nav ul{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    header{
+        flex-direction:column;
+        gap:15px;
+    }
+}
+
+
+
+
+script.js
+const darkModeToggle =
+document.getElementById(
+"darkModeToggle"
+);
+
+if(localStorage.getItem("theme")
+   === "dark"){
+
+    document.body.classList.add(
+        "dark-mode"
+    );
+}
+
+darkModeToggle.addEventListener(
+"click",()=>{
+
+    document.body.classList.toggle(
+        "dark-mode"
+    );
+
+    if(document.body.classList.contains(
+       "dark-mode")){
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+    }
+
+    else{
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+    }
+});
