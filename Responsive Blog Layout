@@ -351,3 +351,203 @@ darkModeToggle.addEventListener(
         );
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########2
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Blog</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle("dark");
+        }
+    </script>
+</head>
+<body>
+<header>
+    <h1>My Blog</h1>
+    <button onclick="toggleMode()">Toggle Dark Mode</button>
+</header>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="articles.html">Articles</a>
+</nav>
+<div class="container">
+    <div class="main">
+        <h2>Main Article</h2>
+        <p>This is the main content of the blog. You can write articles here.</p>
+    </div>
+
+    <div class="sidebar">
+        <h3>Sidebar</h3>
+        <p>Recent posts</p>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiFl78dWCY9NjwG8OzAK6wtFoGSRa7rTLaaA&s" alt="loading">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpWMOgkFL1mP6wRxjEPrHsMNR-PrBsfUYB4A&s" alt="loading">
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Simple Blog</p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+articles.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Blog</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle("dark");
+        }
+    </script>
+</head>
+
+<body>
+
+<header>
+    <h1>My Blog</h1>
+    <button onclick="toggleMode()">Toggle Dark Mode</button>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="articles.html">Articles</a>
+</nav>
+
+<div class="container">
+
+    <div class="main">
+        <h2>Author</h2>
+        <p>The author of this Article is Y.Sri Chernitha who is interested in content creation over web browsers</p>
+        <h2>Web Technologies Article</h2>
+        <p>Web technology encompasses the tools, languages, protocols, and hardware used to create, manage, 
+            and deliver websites and web applications. It includes frontend (client-side) development, such as HTML, CSS, and JavaScript, 
+            and backend (server-side) technologies, like databases and web servers. This infrastructure enables interactive internet browsing, 
+            secure data transmission, and the functioning of cloud-based software.</p>
+    </div>
+
+    <div class="sidebar">
+        <h3>Sidebar</h3>
+        <p>Recent posts</p>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiFl78dWCY9NjwG8OzAK6wtFoGSRa7rTLaaA&s" alt="loading">
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Simple Blog</p>
+</footer>
+
+</body>
+</html>
+
+
+
+
+style.css
+body {
+    margin: 0;
+    font-family: Arial;
+    transition: 0.3s;
+}
+header {
+    background: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+nav {
+    background: #333;
+    padding: 10px;
+    text-align: center;
+}
+nav a {
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+}
+.container {
+    height:100%;
+    display: flex;
+    padding: 20px;
+}
+.main {
+    flex: 3;
+    padding: 20px;
+    background: #f9f9f9;
+}
+.sidebar {
+    flex: 1;
+    padding: 20px;
+    background: #ddd;
+}
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+button {
+    margin-top: 10px;
+    padding: 8px;
+}
+/* Dark Mode */
+    .dark {
+    background: #121212;
+    color: white;
+}
+.dark header {
+    background: #222;
+}
+.dark nav {
+    background: #111;
+}
+.dark .main {
+    background: #1e1e1e;
+}
+.dark .sidebar {
+    background: #2c2c2c;
+}
+.dark footer {
+    background: #111;
+}
